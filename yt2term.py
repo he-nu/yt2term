@@ -105,7 +105,7 @@ def get_audio_process(stream_url: str):
 
 
 def main():
-    target_hz = 20
+    target_hz = 30
     dt = 1.0 / target_hz
 
     args = get_args()

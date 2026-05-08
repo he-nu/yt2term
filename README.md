@@ -9,7 +9,7 @@ Stream YouTube videos (or direct video links) as ASCII art in the terminal.
 - Real-time video to ASCII conversion
 - Optional color output
 - Adjustable width
-- ~20 FPS rendering loop
+- ~30 FPS rendering loop
 
 ## Requirements
 
