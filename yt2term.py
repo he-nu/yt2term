@@ -17,6 +17,8 @@ def get_args():
     parser.add_argument(
         "link",
         type=str,
+        nargs="?",
+        default="https://www.youtube.com/watch?v=IxX_QHay02M",
         help="YouTube/video link"
     )
 
