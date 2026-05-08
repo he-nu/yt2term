@@ -2,7 +2,7 @@
 
 Stream YouTube videos (or direct video links) as ASCII art in the terminal.
 
-![example image](images/insterstellar_ascii.png)
+![example frame](images/matrix_ascii.png)
 
 ## Features
 
