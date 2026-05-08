@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 import time
 
 import cv2
@@ -26,7 +27,6 @@ def get_args():
     parser.add_argument(
         "--width",
         type=int,
-        default=72,
         help="ASCII width"
     )
 
@@ -63,7 +63,12 @@ def main():
 
             pil_image = Image.fromarray(rgb)
 
-            image = asciify.resize_image(pil_image, args.width)
+            if args.width is not None:
+                width = args.width
+            else:
+                width = shutil.get_terminal_size().columns
+
+            image = asciify.resize_image(pil_image, width)
 
             art = asciify.pixels_to_colored_ascii(
                 image,
