@@ -30,8 +30,7 @@ python yt2term.py <link> [--width WIDTH] [--no-color]
 ## Example
 
 ```bash
-python yt2term.py "https://www.youtube.com/watch?v=ODmhPsgqGgQ" --width 100
-```
+python yt2term.py "https://www.youtube.com/watch?v=ODmhPsgqGgQ"
 
 Disable color:
 
