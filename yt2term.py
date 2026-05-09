@@ -9,6 +9,8 @@ import asciify
 from PIL import Image
 from yt_dlp import YoutubeDL
 
+from modules import cli
+
 
 # CONSTANTS
 #=======================================================================
@@ -16,37 +18,6 @@ TARGET_HZ: int = 30
 FRAME_DELTA_TIME: float = 1.0 / TARGET_HZ
 #=======================================================================
 
-
-def get_args():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "link",
-        type=str,
-        nargs="?",
-        default="https://www.youtube.com/watch?v=IxX_QHay02M",
-        help="YouTube/video link"
-    )
-
-    parser.add_argument(
-        "--no-color",
-        action="store_true",
-        help="Disable color output"
-    )
-
-    parser.add_argument(
-        "--width",
-        type=int,
-        help="ASCII width"
-    )
-
-    parser.add_argument(
-    "--audio",
-    action="store_true",
-    help="Enable audio playback (requires ffplay)"
-)
-
-    return parser.parse_args()
 
 
 def ensure_ffplay():
@@ -187,8 +158,7 @@ def clear_screen():
 
 
 def main():
-
-    args: argparse.Namespace = get_args()
+    args: argparse.Namespace = cli.get_args()
     color = not args.no_color
 
     ydl_opts = {
