@@ -163,7 +163,7 @@ def main():
                 time.sleep(sleep_time)
 
     except KeyboardInterrupt:
-        cap.release()
+        pass
 
     finally:
         cap.release()
