@@ -6,9 +6,12 @@ import time
 import cv2
 import asciify
 from PIL import Image
-from yt_dlp import YoutubeDL
 
-from modules import cli, audio
+from modules import (
+    cli,
+    audio,
+    video,
+)
 
 
 # CONSTANTS
@@ -33,15 +36,6 @@ def control_frame_rate(func):
         return result
 
     return wrapper
-
-
-def read_frame(cap: cv2.VideoCapture):
-    ret, frame = cap.read()
-
-    if not ret:
-        return None
-
-    return frame
 
 
 def frame_to_ascii(
@@ -69,7 +63,7 @@ def render_frame(art: str):
 
 @control_frame_rate
 def process_frame(cap, width, color):
-    frame = read_frame(cap)
+    frame = video.read_frame(cap)
 
     if frame is None:
         return False
@@ -96,15 +90,7 @@ def main():
     args: argparse.Namespace = cli.get_args()
     color = not args.no_color
 
-    ydl_opts = {
-        "format": "best[ext=mp4]",
-        "quiet": True,
-        "no_warnings": True,
-    }
-
-    with YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(args.link, download=False)
-        stream_url = info["url"]
+    stream_url = video.get_stream_url(link=args.link)
 
     cap = cv2.VideoCapture(stream_url)
 
