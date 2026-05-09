@@ -1,5 +1,4 @@
 import argparse
-import platform
 import shutil
 import subprocess
 import time
@@ -9,7 +8,7 @@ import asciify
 from PIL import Image
 from yt_dlp import YoutubeDL
 
-from modules import cli
+from modules import cli, audio
 
 
 # CONSTANTS
@@ -17,70 +16,6 @@ from modules import cli
 TARGET_HZ: int = 30
 FRAME_DELTA_TIME: float = 1.0 / TARGET_HZ
 #=======================================================================
-
-
-
-def ensure_ffplay():
-    if shutil.which("ffplay") is not None:
-        return True
-
-    print("ffplay not found.")
-
-    answer = input(
-        "Would you like to install FFmpeg? (y/n): "
-    ).strip().lower()
-
-    if answer != "y":
-        return False
-
-    system = platform.system()
-
-    try:
-        if system == "Windows":
-            subprocess.run(
-                ["winget", "install", "Gyan.FFmpeg"],
-                check=True
-            )
-
-        elif system == "Darwin":
-            subprocess.run(
-                ["brew", "install", "ffmpeg"],
-                check=True
-            )
-
-        elif system == "Linux":
-            subprocess.run(
-                ["sudo", "apt", "install", "-y", "ffmpeg"],
-                check=True
-            )
-
-        else:
-            print("Unsupported operating system.")
-            return False
-
-    except Exception as e:
-        print(f"Installation failed: {e}")
-        return False
-
-    return shutil.which("ffplay") is not None
-
-
-def get_audio_process(stream_url: str):
-    if not ensure_ffplay():
-        print("Resuming play without audio.")
-        time.sleep(2)
-        return None
-
-    return subprocess.Popen(
-        [
-            "ffplay",
-            "-nodisp",
-            "-autoexit",
-            "-loglevel",
-            "quiet",
-            stream_url
-        ]
-    )
 
 
 def control_frame_rate(func):
@@ -175,7 +110,7 @@ def main():
 
     audio_process: subprocess.Popen | None = None
     if args.audio:
-        audio_process = get_audio_process(stream_url)
+        audio_process = audio.get_audio_process(stream_url)
 
     clear_screen()
     try:
