@@ -11,6 +11,13 @@ from PIL import Image
 from yt_dlp import YoutubeDL
 
 
+# CONSTANTS
+#=======================================================================
+TARGET_HZ: int = 30
+FRAME_DELTA_TIME: float = 1.0 / TARGET_HZ
+#=======================================================================
+
+
 def get_args():
     parser = argparse.ArgumentParser()
 
@@ -106,11 +113,79 @@ def get_audio_process(stream_url: str):
     )
 
 
-def main():
-    target_hz = 30
-    dt = 1.0 / target_hz
+def control_frame_rate(func):
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
 
-    args = get_args()
+        result = func(*args, **kwargs)
+
+        elapsed = time.perf_counter() - start
+        sleep_time = FRAME_DELTA_TIME - elapsed
+
+        if sleep_time > 0:
+            time.sleep(sleep_time)
+
+        return result
+
+    return wrapper
+
+
+def read_frame(cap: cv2.VideoCapture):
+    ret, frame = cap.read()
+
+    if not ret:
+        return None
+
+    return frame
+
+
+def frame_to_ascii(
+    frame,
+    width: int,
+    color: bool
+) -> str:
+
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    pil_image = Image.fromarray(rgb)
+
+    image = asciify.resize_image(pil_image, width)
+
+    return asciify.pixels_to_colored_ascii(
+        image,
+        color
+    )
+
+
+def render_frame(art: str):
+    os.system("cls" if os.name == "nt" else "clear")
+    print(art)
+
+
+@control_frame_rate
+def process_frame(cap, width, color):
+    frame = read_frame(cap)
+
+    if frame is None:
+        return False
+
+    art = frame_to_ascii(frame, width, color)
+
+    render_frame(art)
+
+    return True
+
+
+def get_width(args: argparse.Namespace):
+    if args.width is not None:
+        return args.width
+
+    return shutil.get_terminal_size().columns
+
+
+def main():
+    args: argparse.Namespace = get_args()
+    color = not args.no_color
 
     ydl_opts = {
         "format": "best[ext=mp4]",
@@ -130,37 +205,10 @@ def main():
 
     try:
         while True:
-            start = time.perf_counter()
-            ret, frame = cap.read()
+            width = get_width(args)
 
-            if not ret:
+            if not process_frame(cap, width, color):
                 break
-
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-            pil_image = Image.fromarray(rgb)
-
-            if args.width is not None:
-                width = args.width
-            else:
-                width = shutil.get_terminal_size().columns
-
-            image = asciify.resize_image(pil_image, width)
-
-            art = asciify.pixels_to_colored_ascii(
-                image,
-                not args.no_color
-            )
-
-            os.system("cls" if os.name == "nt" else "clear")
-
-            print(art)
-
-            elapsed = time.perf_counter() - start
-            sleep_time = dt - elapsed
-
-            if sleep_time > 0:
-                time.sleep(sleep_time)
 
     except KeyboardInterrupt:
         pass
