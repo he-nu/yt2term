@@ -1,4 +1,5 @@
 import argparse
+import shutil
 
 
 def get_args():
@@ -31,3 +32,10 @@ def get_args():
 )
 
     return parser.parse_args()
+
+
+def get_width(args: argparse.Namespace):
+    if args.width is not None:
+        return args.width
+
+    return shutil.get_terminal_size().columns

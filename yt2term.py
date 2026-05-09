@@ -1,5 +1,4 @@
 import argparse
-import shutil
 import subprocess
 
 import cv2
@@ -10,13 +9,6 @@ from modules import (
     video,
     render,
 )
-
-
-def get_width(args: argparse.Namespace):
-    if args.width is not None:
-        return args.width
-
-    return shutil.get_terminal_size().columns
 
 
 def main():
@@ -34,7 +26,7 @@ def main():
     render.clear_screen()
     try:
         while True:
-            width = get_width(args)
+            width = cli.get_width(args)
             frame = video.read_frame(cap)
 
             if not render.process_frame(frame, width, color):
