@@ -1,125 +1,160 @@
 # yt2term
 
-Stream YouTube videos (or direct video links) as ASCII art directly in the terminal.
+`yt2term` streams YouTube videos (or direct video links) as real-time ASCII art directly inside your terminal.
+
+## Entirely impractical - Weirdly meaningful
+
+---
 
 ![example frame](images/cat_ascii.png)
 
+---
+
 ## Features
 
-- Real-time video to ASCII conversion
-- Optional color output
-- Adjustable ASCII width
-- Optional audio playback via `ffplay`
-- Automatic FFmpeg installation prompt when audio is enabled
+- Real-time video → ASCII conversion
 - ~30 FPS rendering loop
+- Optional color rendering
+- Adjustable output width
+- Optional audio playback via `ffplay`
+- Automatic FFmpeg detection
 
-## Requirements
+---
 
-- Python ≥ 3.9
-- Tested on Python 3.12
+## Installation
 
-Install dependencies:
+### Development install (recommended)
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/<your-username>/yt2term.git
+cd yt2term
+
+pip install -e .
 ```
 
-## Optional Audio Support
+This installs the CLI command:
+
+```bash
+yt2term
+```
+
+### Standard install
+
+```bash
+pip install .
+```
+
+Use this if you just want a normal installed package.
+
+---
+
+## Python Version
+
+- Requires Python ≥ 3.10
+- Tested on Python 3.10+ / 3.12
+
+---
+
+## Dependencies
+
+Installed automatically via `pyproject.toml`:
+
+- `opencv-python`
+- `yt-dlp`
+- `pillow`
+- `asciifyy`
+
+---
+
+## Audio Support
 
 Audio playback uses `ffplay` from FFmpeg.
 
-Audio is completely optional and disabled by default.
+Audio is disabled by default.
 
-If you run with:
-
-```bash
---audio
-```
-
-and `ffplay` is not installed, yt2term will prompt you to install FFmpeg automatically.
-
-### Installation Methods
-
-#### Windows
-
-Uses:
-
-```powershell
-winget install Gyan.FFmpeg
-```
-
-#### macOS
-
-Uses:
+Enable it with:
 
 ```bash
-brew install ffmpeg
+yt2term <link> --audio
 ```
 
-#### Linux
+If FFmpeg is missing, the application will:
 
-Currently supports:
+1. Detect it automatically
+2. Explain what is missing
+3. Prompt installation
+4. Attempt installation using the system package manager
 
-```bash
-sudo apt install -y ffmpeg
-```
+No digging through random forum posts from 2014 required.
+
+---
 
 ## Usage
 
-Basic playback:
+### Basic playback
 
 ```bash
-python yt2term.py <link>
+yt2term <youtube-or-video-url>
 ```
 
-Enable audio:
+### Enable audio
 
 ```bash
-python yt2term.py <link> --audio
+yt2term <url> --audio
 ```
 
-Disable color:
+### Disable color output
 
 ```bash
-python yt2term.py <link> --no-color
+yt2term <url> --no-color
 ```
 
-Set ASCII width manually:
+### Set ASCII width
 
 ```bash
-python yt2term.py <link> --width 120
+yt2term <url> --width 120
 ```
 
-Combine options:
+### Combined options
 
 ```bash
-python yt2term.py <link> --audio --width 100 --no-color
+yt2term <url> --audio --width 100 --no-color
 ```
 
-## Examples
-
-```bash
-python yt2term.py "https://www.youtube.com/watch?v=IxX_QHay02M"
-```
-
-```bash
-python yt2term.py --audio
-```
+---
 
 ## Notes
 
-- Uses `yt-dlp` to extract direct stream URLs
-- Requires internet connection during playback
-- Performance depends on terminal speed and CPU
-- Audio/video synchronization is approximate
-- Audio playback requires FFmpeg
+- Uses `yt-dlp` to resolve streaming URLs
+- Requires an internet connection during playback
+- Performance depends heavily on terminal rendering speed
+- Audio/video sync is approximate
+- Designed for fun, experimentation, and terminal abuse
+
+---
 
 ## Exit
 
-Press:
+Press `Ctrl+C` to stop playback and return to reality.
+
+---
+
+## Project Structure
 
 ```text
-Ctrl+C
+yt2term/
+├── src/
+│   └── yt2term/
+│       ├── main.py
+│       ├── cli.py
+│       ├── video.py
+│       ├── audio.py
+│       ├── render.py
 ```
 
-to stop playback.
+---
+
+## License
+
+MIT
+
