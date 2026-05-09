@@ -8,10 +8,8 @@ from PIL import Image
 
 
 # CONSTANTS
-#=======================================================================
 TARGET_HZ: int = 30
 FRAME_DELTA_TIME: float = 1.0 / TARGET_HZ
-#=======================================================================
 
 
 def clear_screen() -> None:
