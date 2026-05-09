@@ -4,7 +4,7 @@ import subprocess
 import cv2
 import numpy as np
 
-from modules import (
+from yt2term import (
     cli,
     audio,
     video,
