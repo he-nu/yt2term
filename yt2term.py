@@ -2,6 +2,7 @@ import argparse
 import subprocess
 
 import cv2
+import numpy as np
 
 from modules import (
     cli,
@@ -11,13 +12,13 @@ from modules import (
 )
 
 
-def main():
+def main() -> None:
     args: argparse.Namespace = cli.get_args()
-    color = not args.no_color
+    color: bool = not args.no_color
 
-    stream_url = video.get_stream_url(link=args.link)
+    stream_url: str = video.get_stream_url(link=args.link)
 
-    cap = cv2.VideoCapture(stream_url)
+    cap: cv2.VideoCapture = cv2.VideoCapture(stream_url)
 
     audio_process: subprocess.Popen | None = None
     if args.audio:
@@ -26,8 +27,9 @@ def main():
     render.clear_screen()
     try:
         while True:
-            width = cli.get_width(args)
-            frame = video.read_frame(cap)
+            width: int = cli.get_width(args)
+
+            frame: np.ndarray | None = video.read_frame(cap)
 
             if not render.process_frame(frame, width, color):
                 break

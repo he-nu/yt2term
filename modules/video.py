@@ -1,8 +1,9 @@
 import cv2
+import numpy as np
 from yt_dlp import YoutubeDL
 
 
-def read_frame(cap: cv2.VideoCapture):
+def read_frame(cap: cv2.VideoCapture) -> np.ndarray | None:
     ret, frame = cap.read()
 
     if not ret:
@@ -20,6 +21,7 @@ def get_stream_url(link: str) -> str:
 
     with YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(link, download=False)
-        stream_url = info["url"]
+
+        stream_url: str = info["url"]
 
     return stream_url

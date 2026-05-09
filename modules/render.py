@@ -1,7 +1,9 @@
 import time
+from typing import Callable
 
 import cv2
 import asciify
+import numpy as np
 from PIL import Image
 
 
@@ -12,18 +14,18 @@ FRAME_DELTA_TIME: float = 1.0 / TARGET_HZ
 #=======================================================================
 
 
-def clear_screen():
+def clear_screen() -> None:
     print("\033[2J\033[H", end="")
 
 
-def control_frame_rate(func):
+def control_frame_rate(func: Callable) -> Callable:
     def wrapper(*args, **kwargs):
-        start = time.perf_counter()
+        start: float = time.perf_counter()
 
         result = func(*args, **kwargs)
 
-        elapsed = time.perf_counter() - start
-        sleep_time = FRAME_DELTA_TIME - elapsed
+        elapsed: float = time.perf_counter() - start
+        sleep_time: float = FRAME_DELTA_TIME - elapsed
 
         if sleep_time > 0:
             time.sleep(sleep_time)
@@ -34,14 +36,14 @@ def control_frame_rate(func):
 
 
 def frame_to_ascii(
-    frame,
+    frame: np.ndarray,
     width: int,
     color: bool
 ) -> str:
 
-    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    rgb: np.ndarray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    pil_image = Image.fromarray(rgb)
+    pil_image: Image.Image = Image.fromarray(rgb)
 
     image = asciify.resize_image(pil_image, width)
 
@@ -51,17 +53,22 @@ def frame_to_ascii(
     )
 
 
-def render_frame(art: str):
+def render_frame(art: str) -> None:
     print("\033[H", end="") # Clear
     print(art, end="", flush=True)
 
 
 @control_frame_rate
-def process_frame(frame, width, color):
+def process_frame(
+    frame: np.ndarray | None,
+    width: int,
+    color: bool
+) -> bool:
+
     if frame is None:
         return False
 
-    art = frame_to_ascii(frame, width, color)
+    art: str = frame_to_ascii(frame, width, color)
 
     render_frame(art)
 

@@ -4,20 +4,20 @@ import subprocess
 import time
 
 
-def ensure_ffplay():
+def ensure_ffplay() -> bool:
     if shutil.which("ffplay") is not None:
         return True
 
     print("ffplay not found.")
 
-    answer = input(
+    answer: str = input(
         "Would you like to install FFmpeg? (y/n): "
     ).strip().lower()
 
     if answer != "y":
         return False
 
-    system = platform.system()
+    system: str = platform.system()
 
     try:
         if system == "Windows":
@@ -49,7 +49,7 @@ def ensure_ffplay():
     return shutil.which("ffplay") is not None
 
 
-def get_audio_process(stream_url: str):
+def get_audio_process(stream_url: str) -> subprocess.Popen | None:
     if not ensure_ffplay():
         print("Resuming play without audio.")
         time.sleep(2)

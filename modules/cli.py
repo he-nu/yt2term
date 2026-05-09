@@ -2,7 +2,7 @@ import argparse
 import shutil
 
 
-def get_args():
+def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -26,15 +26,15 @@ def get_args():
     )
 
     parser.add_argument(
-    "--audio",
-    action="store_true",
-    help="Enable audio playback (requires ffplay)"
-)
+        "--audio",
+        action="store_true",
+        help="Enable audio playback (requires ffplay)"
+    )
 
     return parser.parse_args()
 
 
-def get_width(args: argparse.Namespace):
+def get_width(args: argparse.Namespace) -> int:
     if args.width is not None:
         return args.width
 
