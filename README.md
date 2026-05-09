@@ -23,13 +23,10 @@
 
 ## Installation
 
-### Development install (recommended)
+### Install from PyPI (recommended)
 
 ```bash
-git clone https://github.com/<your-username>/yt2term.git
-cd yt2term
-
-pip install -e .
+pip install yt2term
 ```
 
 This installs the CLI command:
@@ -38,13 +35,28 @@ This installs the CLI command:
 yt2term
 ```
 
-### Standard install
+---
+
+### Development install
+
+For contributors or local development:
+
+```bash
+git clone https://github.com/<your-username>/yt2term.git
+cd yt2term
+
+pip install -e .
+```
+
+---
+
+### Alternative install
+
+You can also install directly from source:
 
 ```bash
 pip install .
 ```
-
-Use this if you just want a normal installed package.
 
 ---
 
@@ -84,8 +96,6 @@ If FFmpeg is missing, the application will:
 2. Explain what is missing
 3. Prompt installation
 4. Attempt installation using the system package manager
-
-No digging through random forum posts from 2014 required.
 
 ---
 
@@ -157,4 +167,3 @@ yt2term/
 ## License
 
 MIT
-
