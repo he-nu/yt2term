@@ -1,5 +1,4 @@
 import argparse
-import os
 import platform
 import shutil
 import subprocess
@@ -158,8 +157,8 @@ def frame_to_ascii(
 
 
 def render_frame(art: str):
-    os.system("cls" if os.name == "nt" else "clear")
-    print(art)
+    print("\033[H", end="") # Clear
+    print(art, end="", flush=True)
 
 
 @control_frame_rate
@@ -183,7 +182,12 @@ def get_width(args: argparse.Namespace):
     return shutil.get_terminal_size().columns
 
 
+def clear_screen():
+    print("\033[2J\033[H", end="")
+
+
 def main():
+
     args: argparse.Namespace = get_args()
     color = not args.no_color
 
@@ -203,6 +207,7 @@ def main():
     if args.audio:
         audio_process = get_audio_process(stream_url)
 
+    clear_screen()
     try:
         while True:
             width = get_width(args)
