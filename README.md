@@ -1,35 +1,46 @@
+![PyPI version](https://img.shields.io/pypi/v/yt2term)
+![Python](https://img.shields.io/pypi/pyversions/yt2term)
+![License](https://img.shields.io/github/license/he-nu/yt2term)
+
+![demo](images/oiia.gif)
+
 # yt2term
 
-`yt2term` streams YouTube videos (or direct video links) as real-time ASCII art directly inside your terminal.
+> Stream YouTube videos (or direct video links) as real-time ASCII art in your terminal.
 
-## Entirely impractical - Weirdly meaningful
+
+---
+
+## Entirely impractical. Oddly satisfying.
+
+yt2term turns video into a live terminal experience — frame-by-frame ASCII rendering at ~30 FPS, optionally with audio.
 
 ---
 
-![example frame](images/cat_ascii.png)
-
----
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
 
 ## Features
 
-- Real-time video → ASCII conversion
-- ~30 FPS rendering loop
-- Optional color rendering
-- Adjustable output width
-- Optional audio playback via `ffplay`
-- Automatic FFmpeg detection
+- Real-time video → ASCII conversion  
+- Smooth ~30 FPS rendering loop  
+- Optional colorized output  
+- Adjustable resolution / width scaling  
+- Optional audio playback via `ffplay`  
+- Automatic FFmpeg detection and guidance  
 
 ---
 
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
+
 ## Installation
 
-### Install from PyPI (recommended)
+### From PyPI (recommended)
 
 ```bash
 pip install yt2term
 ```
 
-This installs the CLI command:
+Run it:
 
 ```bash
 yt2term
@@ -38,8 +49,6 @@ yt2term
 ---
 
 ### Development install
-
-For contributors or local development:
 
 ```bash
 git clone https://github.com/<your-username>/yt2term.git
@@ -50,9 +59,7 @@ pip install -e .
 
 ---
 
-### Alternative install
-
-You can also install directly from source:
+### Local install
 
 ```bash
 pip install .
@@ -60,16 +67,18 @@ pip install .
 
 ---
 
-## Python Version
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
 
-- Requires Python ≥ 3.10
-- Tested on Python 3.10+ / 3.12
+## Requirements
+
+- Python ≥ 3.10  
+- Tested on Python 3.10–3.12  
 
 ---
 
 ## Dependencies
 
-Installed automatically via `pyproject.toml`:
+Installed automatically:
 
 - `opencv-python`
 - `yt-dlp`
@@ -78,26 +87,30 @@ Installed automatically via `pyproject.toml`:
 
 ---
 
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
+
 ## Audio Support
 
-Audio playback uses `ffplay` from FFmpeg.
+Audio playback uses **FFmpeg (`ffplay`)**.
 
-Audio is disabled by default.
+Disabled by default.
 
-Enable it with:
+Enable it:
 
 ```bash
-yt2term <link> --audio
+yt2term <url> --audio
 ```
 
-If FFmpeg is missing, the application will:
+If FFmpeg is missing, yt2term will:
 
-1. Detect it automatically
-2. Explain what is missing
-3. Prompt installation
-4. Attempt installation using the system package manager
+- Detect it automatically  
+- Explain what’s missing  
+- Suggest installation steps  
+- Attempt system-package installation (if possible)  
 
 ---
+
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
 
 ## Usage
 
@@ -107,11 +120,15 @@ If FFmpeg is missing, the application will:
 yt2term <youtube-or-video-url>
 ```
 
+---
+
 ### Enable audio
 
 ```bash
 yt2term <url> --audio
 ```
+
+---
 
 ### Disable color output
 
@@ -119,11 +136,15 @@ yt2term <url> --audio
 yt2term <url> --no-color
 ```
 
-### Set ASCII width
+---
+
+### Adjust resolution
 
 ```bash
 yt2term <url> --width 120
 ```
+
+---
 
 ### Combined options
 
@@ -133,21 +154,31 @@ yt2term <url> --audio --width 100 --no-color
 
 ---
 
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
+
 ## Notes
 
-- Uses `yt-dlp` to resolve streaming URLs
-- Requires an internet connection during playback
-- Performance depends heavily on terminal rendering speed
+- Streams video via `yt-dlp`
+- Requires active internet connection
+- Terminal rendering speed affects performance
 - Audio/video sync is approximate
-- Designed for fun, experimentation, and terminal abuse
+- Built for experimentation, not precision playback
 
 ---
 
 ## Exit
 
-Press `Ctrl+C` to stop playback and return to reality.
+Press:
+
+```text
+Ctrl + C
+```
+
+to return to reality.
 
 ---
+
+<img src="https://img.spacergif.org/spacer.gif" width="1" height="40"/>
 
 ## Project Structure
 
