@@ -1,8 +1,7 @@
 ![PyPI version](https://img.shields.io/pypi/v/yt2term)
-![Python](https://img.shields.io/pypi/pyversions/yt2term)
 ![License](https://img.shields.io/github/license/he-nu/yt2term)
 
-![demo](images/oiia.gif)
+![demo](media/spin.gif)
 
 # yt2term
 
